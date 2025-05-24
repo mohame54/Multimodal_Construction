@@ -48,7 +48,7 @@ install_if_missing pip3
 # Install Python dependencies from requirements.txt
 if [[ -f "requirements.txt" ]]; then
     echo "Installing Python dependencies..."
-    python3 -m pip3 install -q --no-cache-dir -r requirements.txt
+    python3 -m pip3 install --no-cache-dir -r requirements.txt
 else
     echo "Error: requirements.txt not found." >&2
     exit 1

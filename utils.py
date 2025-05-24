@@ -1,10 +1,10 @@
 import os
 import io
 import re
+import tqdm
 import json
 import faiss
 import base64
-import traceback
 import numpy as np
 from PIL import Image
 import onnxruntime as ort
@@ -154,13 +154,17 @@ def simple_text_splitter(text, chunk_size=300, overlap=50):
 
 
 @st.cache_resource
-def get_vector_store(local_path=None):
-    index = FaissVecStore.load(local_path)
+def get_vector_store(local_path=None, batch_size=5):
+    
     if local_path is None or not os.path.exists(local_path):
         chunks = simple_text_splitter(extract_text("./Regulations.pdf"))
-        index.add_vecs(chunks)
+        print(f"Retrieved {len(chunks)} chunks from the pdf")
+        for i in tqdm.tqdm(range(0, len(chunks), batch_size)):
+            index.add_vecs(chunks[i: i + batch_size])
         local_path = "index" if local_path is None else local_path
         index.save(local_path)
+    else:
+        index = FaissVecStore.load(local_path)
     return index
 
 
@@ -202,7 +206,6 @@ def base64_2image(base64_str: str):
     image_data = base64.b64decode(base64_str)
     return Image.open(io.BytesIO(image_data))
    
-
 
 def pilImage_2base64(img, format="PNG"):
     buffer = io.BytesIO()

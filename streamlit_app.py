@@ -1,3 +1,4 @@
+import time
 import streamlit as st
 from PIL import Image
 from utils import (
@@ -32,6 +33,10 @@ except Exception as e:
     st.error(f"Could not open image: {e}")
     st.stop()
 
+
+# Show Image
+
+st.image(image)
 # Retrieval
 with st.spinner("Finding similar documents..."):
     results = index.query(image, top_k=3)
@@ -44,9 +49,9 @@ if show_rag:
         st.write(doc)
 
 # Prepare query
-context = "\n\n".join(doc for doc, _ in results)
+context = "\n".join(doc for doc, _ in results)
 query = (
-    f"Based on the image plus the above retrieved context, "
+    f"Based on the image plus the provided retrieved context, "
     f"provide an answer. Context:\n\n{context}"
 )
 
@@ -60,6 +65,7 @@ if st.button("Stop"):
 
 # Stream loop
 try:
+    t1 = time.time()
     for chunk in get_llm_answer(pilImage_2base64(image), query):
         if st.session_state.stop_stream:
             # Reset flag and exit loop
@@ -67,12 +73,13 @@ try:
             answer_placeholder.markdown(full_answer + "\n\n*Stream stopped by user.*")
             break
 
-        delta = chunk.choices[0].delta.get("content", "")
+        delta = getattr(chunk.choices[0].delta, "content", "")
         if not delta:
             continue
 
         full_answer += delta
         answer_placeholder.markdown(full_answer)
-
+    elapsed = time.time() - t1
+    st.write(f"🕒 Response time: {elapsed:.2f} seconds")
 except Exception as e:
     st.error(f"Error while streaming LLM response: {e}")

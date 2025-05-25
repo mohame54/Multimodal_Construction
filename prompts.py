@@ -23,6 +23,24 @@ Summary:
 • [Regulation] – [Violation] (Serious/General)
 • [Regulation] – [Violation] (Serious/General)
 ```
+## Example:
+[IMAGE: Scaffold without fall protection]
+
+Based on this photo, an OSHA inspector would almost certainly issue citations under 1926 standards. The main problems are: (1) lack of fall protection on scaffold, (2) improper scaffold construction.
+
+Breakdown of citations:
+
+1. Fall Protection (Serious) – 29 CFR 1926.501(b)(1)
+   • "Each employee on walking/working surface 6+ feet above lower level shall be protected from falling"
+   • No guardrails or harnesses visible on scaffold edges
+
+2. Scaffold Construction (Serious) – 29 CFR 1926.451(b)(1)
+   • "Scaffold platforms shall be fully planked between uprights and guardrails"
+   • Planks uneven and extending past supports
+
+Summary:
+• 1926.501(b)(1) – Fall protection (Serious)
+• 1926.451(b)(1) – Scaffold construction (Serious)
 
 ## Common Violations:
 • Fall Protection: Missing guardrails/harnesses (6+ feet high)

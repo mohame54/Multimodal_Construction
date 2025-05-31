@@ -29,6 +29,9 @@ if not uploaded_image:
 
 try:
     image = Image.open(uploaded_image).convert("RGB")
+    w, h = image.size
+    w, h = min(int(w / h), 1) *256, 256
+    image = image.resize((w, h))
 except Exception as e:
     st.error(f"Could not open image: {e}")
     st.stop()
